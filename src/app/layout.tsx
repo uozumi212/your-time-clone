@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: 'Your Time Demo',
-  description: 'Your Time Demo',
+  title: 'Your Time | 人生の残り時間を可視化するアプリ',
+  description: '人生の残り時間を可視化し、毎日を大切に使うための無料Webアプリです。',
   icons: {
     icon: '/clock-check.svg',
   }
@@ -18,11 +19,11 @@ export default function RootLayout ({
   return (
     <html lang="ja" suppressHydrationWarning>
       <head>
-        <meta name="application-name" content="Your Time Clone" />
+        <meta name="application-name" content="Your Time" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Your Time Clone" />
-        <meta name="description" content="あなたの時間管理をサポートするアプリ" />
+        <meta name="apple-mobile-web-app-title" content="Your Time" />
+        <meta name="description" content="人生の残り時間を可視化し、毎日を大切に使うための無料Webアプリ" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-config" content="/icons/browserconfig.xml" />
@@ -35,6 +36,7 @@ export default function RootLayout ({
       <body >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
+          <SiteFooter />
         </ThemeProvider>
       </body>
     </html>
