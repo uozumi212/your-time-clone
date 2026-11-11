@@ -2,7 +2,10 @@ import type { NextConfig } from "next";
 import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+ 	output: "export",
+	images: {
+		unoptimized: true,
+	},
 };
 
 const pwaConfig = withPWA({
@@ -13,4 +16,6 @@ const pwaConfig = withPWA({
   disable: process.env.NODE_ENV === "development", // 開発中は無効化
 })
 
-export default pwaConfig(nextConfig);
+const finalConfig = pwaConfig(nextConfig);
+
+export default finalConfig;

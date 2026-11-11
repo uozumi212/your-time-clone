@@ -15,9 +15,12 @@ export default function BucketList () {
 	const [newItemText, setNewItemText] = useState('');
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	useEffect(() => {
-		setItems(getBucketList());
-		setIsLoaded(true);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setItems(getBucketList());
+      setIsLoaded(true);
+    });
+    return () => window.cancelAnimationFrame(frame);
 	}, []);
 
 	const handleAddItem = (e: React.FormEvent) => {

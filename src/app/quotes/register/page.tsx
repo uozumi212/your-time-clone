@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addQuote } from "@/utils/quotes";
 import Navigation from "@/components/Navigation";
-import AiQuoteModal from "@/components/AiQuoteModal";
-import { Sparkles, MessageSquarePlus } from "lucide-react";
 import "../Quotes.module.css";
 
 export default function RegisterQuote() {
@@ -13,21 +11,6 @@ export default function RegisterQuote() {
   const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("");
-
-  // AI Modal State
-  const [showAiModal, setShowAiModal] = useState(false);
-
-  const handleAiSelectQuote = (
-    selectedQuote: string,
-    selectedAuthor: string,
-  ) => {
-    setQuote(selectedQuote);
-    if (selectedAuthor) {
-      setAuthor(selectedAuthor);
-    }
-    setShowAiModal(false);
-    setMessage("✨ AIが教えてくれた名言をフォームにセットしました！");
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,28 +40,6 @@ export default function RegisterQuote() {
           </header>
 
           <div className="form-section !p-4 pt-6 max-w-2xl justify-center inline">
-            {/* AI Trigger Area */}
-            <div className="!p-2 mb-2 px-4 py-3 sm:pr-5 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 dark:from-indigo-900/10 dark:to-purple-900/10 border border-indigo-500/10 dark:border-indigo-500/20 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="min-w-0">
-                <h2 className="text-base sm:text-lg font-semibold flex items-center gap-2 text-indigo-900 dark:text-indigo-200">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/10 dark:bg-indigo-400/10 ring-1 ring-indigo-500/15 dark:ring-indigo-400/15">
-                    <Sparkles className="w-5 h-5 text-indigo-600 dark:text-indigo-300" />
-                  </span>
-                  AIに名言を教えてもらう
-                </h2>
-                <p className="mt-1 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-                  テーマや人物名を伝えて、AIとお話ししながら名言を探せます。
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowAiModal(true)}
-                className="shrink-0 sm:mr-1 inline-flex items-center justify-center gap-2.5 !px-4 !py-2 cursor-pointer rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg shadow-indigo-500/25 transition-all font-semibold tracking-wide ring-1 ring-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60 active:translate-y-[1px]"
-              >
-                <MessageSquarePlus className="w-5 h-5" />
-                使ってみる
-              </button>
-            </div>
 
             {/* Main Form */}
             <form onSubmit={handleSubmit} className="input-form">
@@ -127,12 +88,6 @@ export default function RegisterQuote() {
           </div>
         </div>
       </main>
-
-      <AiQuoteModal
-        isOpen={showAiModal}
-        onClose={() => setShowAiModal(false)}
-        onSelectQuote={handleAiSelectQuote}
-      />
     </>
   );
 }
