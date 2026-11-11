@@ -3,6 +3,7 @@ import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
  	output: "export",
+	trailingSlash: true,
 	images: {
 		unoptimized: true,
 	},
