@@ -32,9 +32,20 @@ export default function PrivacyPage() {
 			<section>
 				<h2>4. 広告について</h2>
 				<p>
-					当サイトでは、今後Google AdSenseなどの第三者配信広告サービスを利用する場合があります。
-					広告配信事業者は、利用者の興味に応じた広告を表示するため、Cookieを使用することがあります。
-					広告配信を開始する場合は、本ポリシーを更新し、必要な同意取得や設定を行います。
+					当サイトでは、Google AdSenseによる広告配信を利用する場合があります。Googleなどの第三者配信事業者は、
+					利用者の本サイトまたは他サイトへの過去のアクセス情報に基づいて広告を配信するため、Cookie、
+					Webビーコン、IPアドレスなどの情報を使用することがあります。
+				</p>
+				<p>
+					Googleによる広告Cookieの利用については、
+					<a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noreferrer">
+						Googleによるパートナーサイト・アプリの利用について
+					</a>
+					をご確認ください。パーソナライズド広告は
+					<a href="https://adssettings.google.com/" target="_blank" rel="noreferrer">
+						広告設定
+					</a>
+					から変更できます。
 				</p>
 			</section>
 			<section>

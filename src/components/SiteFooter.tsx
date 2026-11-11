@@ -13,6 +13,7 @@ export default function SiteFooter() {
 					<Link href="/originality">独自コンテンツ</Link>
 					<Link href="/contact">お問い合わせ</Link>
 					<Link href="/privacy">プライバシーポリシー</Link>
+					<Link href="/terms">利用規約</Link>
 				</nav>
 			</div>
 		</footer>
