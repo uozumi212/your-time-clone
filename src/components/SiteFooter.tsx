@@ -11,6 +11,7 @@ export default function SiteFooter() {
 					<Link href="/about">運営者・アプリについて</Link>
 					<Link href="/guide">使い方・機能</Link>
 					<Link href="/originality">独自コンテンツ</Link>
+					<Link href="/settings">設定</Link>
 					<Link href="/contact">お問い合わせ</Link>
 					<Link href="/privacy">プライバシーポリシー</Link>
 					<Link href="/terms">利用規約</Link>

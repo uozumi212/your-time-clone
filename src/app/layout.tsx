@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import SiteFooter from "@/components/SiteFooter";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export const metadata: Metadata = {
   title: 'Your Time Demo',
@@ -42,10 +43,12 @@ export default function RootLayout ({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <SiteFooter />
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+            <SiteFooter />
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -13,6 +13,7 @@ import {
 } from '@/utils/timeCalculations';
 import Navigation from '@/components/Navigation';
 import QuoteDisplay from '@/components/QuoteDisplay';
+import { startFaviconAnimation, FaviconTimer } from '@/utils/faviconAnimation';
 
 const STORAGE_KEY_BIRTHDATE = 'yourtime_birthdate';
 const STORAGE_KEY_LIFE_EXPECTANCY = 'yourtime_life_expectancy';
@@ -23,6 +24,7 @@ export default function Home () {
   const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(null);
   const [lifeStats, setLifeStats] = useState<LifeStats | null>(null);
   const [isClient, setIsClient] = useState(false);
+  const [faviconTimer, setFaviconTimer] = useState<FaviconTimer | null>(null);
 
   // クライアントサイドでのみ実行
   useEffect(() => {
@@ -63,6 +65,30 @@ export default function Home () {
     return () => clearInterval(interval);
   }, [birthDate, lifeExpectancy, isClient]);
 
+  // Faviconアニメーション
+  useEffect(() => {
+    if (!birthDate || !isClient || !timeRemaining) {
+      if (faviconTimer) {
+        faviconTimer.stop();
+        setFaviconTimer(null);
+      }
+      return;
+    }
+
+    if (!faviconTimer) {
+      const timer = startFaviconAnimation(() => ({
+        seconds: timeRemaining.seconds,
+      }));
+      setFaviconTimer(timer);
+    }
+
+    return () => {
+      if (faviconTimer) {
+        faviconTimer.stop();
+      }
+    };
+  }, [birthDate, isClient, timeRemaining, faviconTimer]);
+
   const handleSubmit = (newBirthDate: Date, newLifeExpectancy: number) => {
     setBirthDate(newBirthDate);
     setLifeExpectancy(newLifeExpectancy);
@@ -73,6 +99,10 @@ export default function Home () {
   };
 
   const handleReset = () => {
+    if (faviconTimer) {
+      faviconTimer.stop();
+      setFaviconTimer(null);
+    }
     setBirthDate(null);
     setLifeExpectancy(80);
     setTimeRemaining(null);

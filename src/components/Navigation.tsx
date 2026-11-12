@@ -30,6 +30,12 @@ export default function Navigation () {
 						>
 							名言登録
 						</Link>
+						<Link
+							href="/settings"
+							className={`nav-link ${pathname === '/settings' ? 'active' : ''}`}
+						>
+							設定
+						</Link>
 					</div>
 				</div>
 				<ThemeSwitcher />
