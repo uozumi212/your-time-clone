@@ -1,0 +1,317 @@
+/* 「Your Timeとは」ページ */
+.features-page {
+    min-height: calc(100vh - 80px);
+    padding: 3rem 1rem 4rem;
+}
+
+.features-page__inner {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+/* ヒーロー */
+.features-hero {
+    text-align: center;
+}
+
+.features-hero__eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-accent-1);
+}
+
+.features-hero__title {
+    margin-top: 0.5rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.features-hero__lead {
+    max-width: 680px;
+    margin: 1.25rem auto 0;
+    color: var(--color-text-secondary);
+    line-height: 1.9;
+}
+
+.features-hero__lead strong {
+    color: var(--color-text-primary);
+}
+
+/* セクション共通 */
+.features-section__title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.features-section__title::before {
+    content: "";
+    width: 4px;
+    height: 1.4em;
+    border-radius: 999px;
+    background: var(--gradient-primary);
+}
+
+/* 機能カード */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.features-card {
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1.25rem;
+    background: var(--color-bg-card);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.features-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.features-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.9rem;
+    background: var(--gradient-glow);
+    font-size: 1.5rem;
+}
+
+.features-card__title {
+    margin-top: 1rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.features-card__text {
+    margin-top: 0.4rem;
+    font-size: 0.925rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+}
+
+/* FAQ */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.faq-item {
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-bg-card);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.faq-item[open] {
+    border-color: rgba(139, 92, 246, 0.45);
+}
+
+.faq-item__question {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1.1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.faq-item__question::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item__question:hover .faq-item__label {
+    color: var(--color-accent-1);
+}
+
+.faq-item__q {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.faq-item__label {
+    flex: 1;
+    transition: color 0.2s ease;
+}
+
+.faq-item__chevron {
+    flex-shrink: 0;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-right: 2px solid var(--color-text-secondary);
+    border-bottom: 2px solid var(--color-text-secondary);
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+}
+
+.faq-item[open] .faq-item__chevron {
+    transform: rotate(-135deg);
+}
+
+.faq-item__answer {
+    padding: 0 1.25rem 1.25rem calc(1.25rem + 1.9rem + 0.9rem);
+    line-height: 1.85;
+    color: var(--color-text-secondary);
+}
+
+.faq-item__answer a {
+    color: var(--color-accent-2);
+    text-decoration: underline;
+}
+
+/* CTA */
+.features-cta {
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 1.5rem;
+    background: var(--gradient-glow);
+    text-align: center;
+}
+
+.features-cta__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.features-cta__text {
+    margin-top: 0.5rem;
+    color: var(--color-text-secondary);
+}
+
+.features-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.features-cta__button {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.features-cta__button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.features-cta__button--primary {
+    border-color: transparent;
+    background: var(--gradient-primary);
+    color: #fff;
+}
+
+/* ホーム画面から案内するリンクカード */
+.home-about-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 56rem;
+    margin: 3rem auto 0;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1.25rem;
+    background: var(--color-bg-card);
+    box-shadow: var(--shadow-card);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-about-link:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.home-about-link__title {
+    font-weight: 700;
+}
+
+.home-about-link__text {
+    margin-top: 0.2rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+.home-about-link__arrow {
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    color: var(--color-accent-1);
+}
+
+@media (max-width: 640px) {
+    .features-page {
+        padding-top: 2rem;
+    }
+
+    .features-page__inner {
+        gap: 2.5rem;
+    }
+
+    .features-hero__br {
+        display: none;
+    }
+
+    .features-section__title {
+        font-size: 1.2rem;
+    }
+
+    .faq-item__question {
+        padding: 1rem;
+    }
+
+    .faq-item__answer {
+        padding: 0 1rem 1rem;
+    }
+
+    .features-cta {
+        padding: 2rem 1.25rem;
+    }
+
+    .features-cta__button {
+        width: 100%;
+    }
+}

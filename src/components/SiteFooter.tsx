@@ -8,6 +8,7 @@ export default function SiteFooter() {
 					© {new Date().getFullYear()} Your Time
 				</p>
 				<nav className="site-footer__links" aria-label="フッターナビゲーション">
+					<Link href="/features">Your Timeとは</Link>
 					<Link href="/about">運営者・アプリについて</Link>
 					<Link href="/guide">使い方・機能</Link>
 					<Link href="/originality">独自コンテンツ</Link>
