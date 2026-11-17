@@ -1,120 +1,13 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import InputForm from '@/components/InputForm';
-import TimeDisplay from '@/components/TimeDisplay';
-import ProgressBar from '@/components/ProgressBar';
-import StatCard from '@/components/StatCard';
-import {
-  calculateRemainingTime,
-  calculateLifeStats,
-  TimeRemaining,
-  LifeStats,
-} from '@/utils/timeCalculations';
 import Navigation from '@/components/Navigation';
-import QuoteDisplay from '@/components/QuoteDisplay';
-import { startFaviconAnimation, FaviconTimer } from '@/utils/faviconAnimation';
+import HomeContent from '@/components/HomeContent';
+import type { Metadata } from 'next';
 
-const STORAGE_KEY_BIRTHDATE = 'yourtime_birthdate';
-const STORAGE_KEY_LIFE_EXPECTANCY = 'yourtime_life_expectancy';
+export const metadata: Metadata = {
+  title: 'ホーム',
+  description: '生年月日と平均寿命から人生の残り時間をリアルタイムで可視化。あなたの大切な時間を意識して、毎日を充実させましょう。',
+};
 
-export default function Home () {
-  const [birthDate, setBirthDate] = useState<Date | null>(null);
-  const [lifeExpectancy, setLifeExpectancy] = useState<number>(80);
-  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(null);
-  const [lifeStats, setLifeStats] = useState<LifeStats | null>(null);
-  const [isClient, setIsClient] = useState(false);
-  const [faviconTimer, setFaviconTimer] = useState<FaviconTimer | null>(null);
-
-  // クライアントサイドでのみ実行
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      setIsClient(true);
-    });
-
-    // LocalStorageから設定を読み込む
-    const savedBirthDate = localStorage.getItem(STORAGE_KEY_BIRTHDATE);
-    const savedLifeExpectancy = localStorage.getItem(STORAGE_KEY_LIFE_EXPECTANCY);
-
-    if (savedBirthDate) {
-      requestAnimationFrame(() => {
-        setBirthDate(new Date(savedBirthDate));
-      });
-    }
-    if (savedLifeExpectancy) {
-      requestAnimationFrame(() => {
-        setLifeExpectancy(Number(savedLifeExpectancy));
-      });
-    }
-  }, []);
-
-  // 時間の更新
-  useEffect(() => {
-    if (!birthDate || !isClient) return;
-
-    const updateTime = () => {
-      const remaining = calculateRemainingTime(birthDate, lifeExpectancy);
-      const stats = calculateLifeStats(birthDate, lifeExpectancy);
-      setTimeRemaining(remaining);
-      setLifeStats(stats);
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 100); // 100msごとに更新
-
-    return () => clearInterval(interval);
-  }, [birthDate, lifeExpectancy, isClient]);
-
-  // Faviconアニメーション
-  useEffect(() => {
-    if (!birthDate || !isClient || !timeRemaining) {
-      if (faviconTimer) {
-        faviconTimer.stop();
-        setFaviconTimer(null);
-      }
-      return;
-    }
-
-    if (!faviconTimer) {
-      const timer = startFaviconAnimation(() => ({
-        seconds: timeRemaining.seconds,
-      }));
-      setFaviconTimer(timer);
-    }
-
-    return () => {
-      if (faviconTimer) {
-        faviconTimer.stop();
-      }
-    };
-  }, [birthDate, isClient, timeRemaining, faviconTimer]);
-
-  const handleSubmit = (newBirthDate: Date, newLifeExpectancy: number) => {
-    setBirthDate(newBirthDate);
-    setLifeExpectancy(newLifeExpectancy);
-
-    // LocalStorageに保存
-    localStorage.setItem(STORAGE_KEY_BIRTHDATE, newBirthDate.toISOString());
-    localStorage.setItem(STORAGE_KEY_LIFE_EXPECTANCY, String(newLifeExpectancy));
-  };
-
-  const handleReset = () => {
-    if (faviconTimer) {
-      faviconTimer.stop();
-      setFaviconTimer(null);
-    }
-    setBirthDate(null);
-    setLifeExpectancy(80);
-    setTimeRemaining(null);
-    setLifeStats(null);
-    localStorage.removeItem(STORAGE_KEY_BIRTHDATE);
-    localStorage.removeItem(STORAGE_KEY_LIFE_EXPECTANCY);
-  };
-
-  if (!isClient) {
-    return null; // SSR時は何も表示しない
-  }
-
+export default function Home() {
   return (
     <>
       <Navigation />
@@ -127,58 +20,151 @@ export default function Home () {
             <p className="subtitle">あなたの残り時間を可視化する</p>
           </header>
 
-          <QuoteDisplay />
+          <HomeContent />
 
-          {!birthDate || !timeRemaining || !lifeStats ? (
-            <div className="form-section">
-              <InputForm
-                onSubmit={handleSubmit}
-                initialBirthDate={birthDate || undefined}
-                initialLifeExpectancy={lifeExpectancy}
-              />
+          <section className="mt-12 px-4 max-w-4xl mx-auto">
+            <div className="glass-panel p-8 rounded-2xl">
+              <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
+                Your Time とは
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                Your Timeは、生年月日と想定寿命から<strong>人生の残り時間</strong>をリアルタイムで可視化する無料Webアプリケーションです。
+                時間は限られています。毎日を大切に過ごすために、あなたの時間を見える化しましょう。
+              </p>
+
+              <h3 className="text-xl font-bold mt-8 mb-4 text-gray-800 dark:text-white">
+                主な機能
+              </h3>
+              <ul className="space-y-3 text-gray-600 dark:text-gray-300">
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 dark:text-purple-400 text-xl">⏰</span>
+                  <div>
+                    <strong>リアルタイムカウントダウン</strong> - 残り時間を年・月・日・時・分・秒で表示
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 dark:text-purple-400 text-xl">📊</span>
+                  <div>
+                    <strong>人生の進捗表示</strong> - 経過日数、残り日数、進捗率を統計カードで可視化
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 dark:text-purple-400 text-xl">💭</span>
+                  <div>
+                    <strong>名言管理</strong> - 自分を鼓舞する名言を登録・管理し、モチベーションを維持
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 dark:text-purple-400 text-xl">✅</span>
+                  <div>
+                    <strong>バケットリスト</strong> - 死ぬまでにやりたいことをリスト化して管理
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-600 dark:text-purple-400 text-xl">🔒</span>
+                  <div>
+                    <strong>完全プライベート</strong> - すべてのデータはブラウザのLocalStorageに保存され、外部送信されません
+                  </div>
+                </li>
+              </ul>
+
+              <h3 className="text-xl font-bold mt-8 mb-4 text-gray-800 dark:text-white">
+                よくある質問（FAQ）
+              </h3>
+              <div className="space-y-4">
+                <details className="group">
+                  <summary className="cursor-pointer font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    データはどこに保存されますか？
+                  </summary>
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 pl-4">
+                    すべてのデータ（生年月日、名言、バケットリストなど）はブラウザのLocalStorageに保存されます。
+                    サーバーには送信されないため、プライバシーが完全に保護されます。
+                  </p>
+                </details>
+
+                <details className="group">
+                  <summary className="cursor-pointer font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    ブラウザを変えたらデータは消えますか？
+                  </summary>
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 pl-4">
+                    はい。LocalStorageはブラウザごとに独立しているため、別のブラウザやデバイスではデータは引き継がれません。
+                    <a href="/settings" className="text-purple-600 dark:text-purple-400 hover:underline ml-1">設定ページ</a>から
+                    データをエクスポートして、新しい環境でインポートすることで移行できます。
+                  </p>
+                </details>
+
+                <details className="group">
+                  <summary className="cursor-pointer font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    計算方法は？
+                  </summary>
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 pl-4">
+                    生年月日に設定した平均寿命（年数）を加算した日時から、現在時刻を引いた差分を計算しています。
+                    100ミリ秒ごとに更新されるため、リアルタイムで減少していく様子が確認できます。
+                  </p>
+                </details>
+
+                <details className="group">
+                  <summary className="cursor-pointer font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    無料ですか？
+                  </summary>
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 pl-4">
+                    はい、完全無料です。広告表示により運営されています。
+                  </p>
+                </details>
+
+                <details className="group">
+                  <summary className="cursor-pointer font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    スマートフォンで使えますか？
+                  </summary>
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 pl-4">
+                    はい。PWA（Progressive Web App）対応しているため、スマートフォンのホーム画面に追加してアプリのように使用できます。
+                    オフラインでも動作します。
+                  </p>
+                </details>
+
+                <details className="group">
+                  <summary className="cursor-pointer font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    データが消えた場合の対処法は？
+                  </summary>
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 pl-4">
+                    ブラウザのキャッシュクリアやプライベートブラウジングモードではデータが保存されません。
+                    定期的に<a href="/settings" className="text-purple-600 dark:text-purple-400 hover:underline">設定ページ</a>から
+                    バックアップをエクスポートすることをお勧めします。
+                  </p>
+                </details>
+
+                <details className="group">
+                  <summary className="cursor-pointer font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    平均寿命の設定を変更できますか？
+                  </summary>
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 pl-4">
+                    はい。入力フォームで1〜120歳の範囲でスライダーで設定できます。
+                    設定後も「設定をリセット」ボタンで再度変更可能です。
+                  </p>
+                </details>
+
+                <details className="group">
+                  <summary className="cursor-pointer font-semibold text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    名言やバケットリストの件数制限はありますか？
+                  </summary>
+                  <p className="mt-2 text-gray-600 dark:text-gray-300 pl-4">
+                    技術的な上限はありませんが、ブラウザのLocalStorage容量（通常5〜10MB）に依存します。
+                    一般的な使い方であれば問題なく使用できます。
+                  </p>
+                </details>
+              </div>
+
+              <div className="mt-8 p-6 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-slate-800/50 dark:to-slate-700/50 rounded-xl border border-purple-100 dark:border-slate-700">
+                <h3 className="text-lg font-bold mb-2 text-gray-800 dark:text-white">
+                  今すぐ始めましょう
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  生年月日と想定寿命を入力するだけで、すぐに使い始められます。
+                  詳しい使い方は<a href="/guide" className="text-purple-600 dark:text-purple-400 hover:underline">使い方ガイド</a>をご覧ください。
+                </p>
+              </div>
             </div>
-          ) : (
-            <>
-              <div className="timer-section">
-                <TimeDisplay timeRemaining={timeRemaining} />
-              </div>
-
-              <div className="progress-section">
-                <ProgressBar percentage={lifeStats.percentage} />
-              </div>
-
-              <div className="stats-section">
-                <StatCard
-                  title="経過日数"
-                  value={lifeStats.elapsedDays.toLocaleString()}
-                  subtitle="日"
-                  icon="📅"
-                />
-                <StatCard
-                  title="残り日数"
-                  value={lifeStats.remainingDays.toLocaleString()}
-                  subtitle="日"
-                  icon="⏳"
-                />
-                <StatCard
-                  title="人生の進捗"
-                  value={lifeStats.percentage.toFixed(2)}
-                  subtitle="%"
-                  icon="📊"
-                />
-              </div>
-
-              <div className="actions-section">
-                <button onClick={handleReset} className="reset-button">
-                  設定をリセット
-                </button>
-              </div>
-            </>
-          )}
-
-          <footer className="footer">
-            <p>時間は限られています。大切に使いましょう。</p>
-          </footer>
+          </section>
         </div>
       </main>
     </>

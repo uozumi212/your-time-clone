@@ -62,7 +62,7 @@ export default function SettingsPage() {
     <>
       <Navigation />
       <main className="main-container">
-        <div className="content-wrapper">
+        <div className="content-wrapper" style={{ maxWidth: "42rem" }}>
           <header className="header">
             <h1 className="title">
               <span className="title-gradient">設定</span>
@@ -70,11 +70,11 @@ export default function SettingsPage() {
             <p className="subtitle">データのバックアップと管理</p>
           </header>
 
-          <div className="form-section !p-6 max-w-2xl mx-auto">
-            
+          <div className="form-section !p-6">
+
             {message && (
               <div
-                className={`p-4 rounded-lg border flex items-center gap-3 mb-6 ${
+                className={`!p-8 rounded-lg border flex items-center gap-3 !mb-6 ${
                   message.type === 'success'
                     ? 'bg-green-500/10 border-green-500/20 text-green-500'
                     : 'bg-red-500/10 border-red-500/20 text-red-500'
@@ -89,28 +89,28 @@ export default function SettingsPage() {
               </div>
             )}
 
-            <div className="space-y-6">
-              <section>
-                <h2 className="text-xl font-bold mb-3 text-gray-800 dark:text-white">
+            <div className="space-y-4 p-4">
+              <section className="p-4">
+                <h2 className="text-xl font-bold !mb-4 text-gray-800 dark:text-white">
                   データのバックアップ
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400 !mb-6">
                   すべてのデータをJSONファイルとしてダウンロードします。デバイス変更時やデータ保護のために定期的なバックアップをお勧めします。
                 </p>
                 <button
                   onClick={handleExport}
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white !px-6 !py-3 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl cursor-pointer"
                 >
                   <Download className="w-5 h-5" />
                   データをエクスポート
                 </button>
               </section>
 
-              <section>
-                <h2 className="text-xl font-bold mb-3 text-gray-800 dark:text-white">
+              <section className="p-4 !mt-4">
+                <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">
                   データの復元
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 !my-2">
                   以前にエクスポートしたバックアップファイルからデータを復元します。現在のデータは上書きされます。
                 </p>
                 <input
@@ -122,31 +122,31 @@ export default function SettingsPage() {
                   id="import-file"
                 />
                 <label htmlFor="import-file">
-                  <div className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl cursor-pointer">
+                  <div className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white !px-6 !py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl cursor-pointer">
                     <Upload className="w-5 h-5" />
                     データをインポート
                   </div>
                 </label>
               </section>
 
-              <section className="pt-4 border-t border-gray-200 dark:border-slate-700">
-                <h2 className="text-xl font-bold mb-3 text-gray-800 dark:text-white">
+              <section className="!p-4 border-t border-gray-200 dark:border-slate-700">
+                <h2 className="text-xl font-bold !mb-4 text-gray-800 dark:text-white">
                   データの削除
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400 !mb-6">
                   すべてのデータを完全に削除します。この操作は取り消せません。
                 </p>
-                
+
                 {!showClearConfirm ? (
                   <button
                     onClick={() => setShowClearConfirm(true)}
-                    className="w-full bg-gradient-to-r from-red-500 to-rose-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-600 hover:to-rose-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+                    className="w-full bg-gradient-to-r from-red-500 to-rose-600 text-white !px-6 !py-3 rounded-xl font-semibold hover:from-red-600 hover:to-rose-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl cursor-pointer"
                   >
                     <Trash2 className="w-5 h-5" />
                     すべてのデータを削除
                   </button>
                 ) : (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg space-y-3">
+                  <div className="!p-4 bg-red-500/10 border border-red-500/20 rounded-lg !space-y-3">
                     <p className="text-red-500 font-semibold flex items-center gap-2">
                       <AlertCircle className="w-5 h-5" />
                       本当に削除しますか？
@@ -157,13 +157,13 @@ export default function SettingsPage() {
                     <div className="flex gap-3">
                       <button
                         onClick={handleClearData}
-                        className="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition-colors"
+                        className="flex-1 bg-red-500 text-white !px-4 !py-2 rounded-lg font-semibold hover:bg-red-600 transition-colors"
                       >
                         削除する
                       </button>
                       <button
                         onClick={() => setShowClearConfirm(false)}
-                        className="flex-1 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
+                        className="flex-1 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-white !px-4 !py-2 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors"
                       >
                         キャンセル
                       </button>

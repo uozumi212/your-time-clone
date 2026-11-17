@@ -9,7 +9,7 @@ export const metadata = {
 export default function PrivacyPage() {
 	return (
 		<InfoPageLayout title="プライバシーポリシー" subtitle="Your Timeにおける情報の取り扱いについて">
-			<p className="info-page__updated">制定日：2026年11月11日</p>
+			<p className="info-page__updated">制定日：2026年11月11日 / 最終更新日：2026年11月13日</p>
 			<section>
 				<h2>1. 運営者</h2>
 				<p>{siteConfig.operatorName}</p>
@@ -18,8 +18,12 @@ export default function PrivacyPage() {
 				<h2>2. 取得する情報</h2>
 				<p>
 					Your Timeは、アカウント登録を必要としません。アプリ上で入力された生年月日、想定寿命、
-					名言、Bucket Listの内容は、利用者のブラウザ内のローカルストレージに保存されます。
+					名言、Bucket Listの内容は、利用者のブラウザ内のローカルストレージ（LocalStorage）に保存されます。
 					これらの情報を運営者のサーバーへ送信・保存することはありません。
+				</p>
+				<p>
+					また、PWA（Progressive Web App）機能により、Service WorkerとCacheStorageを使用してオフライン動作を可能にしています。
+					これらもブラウザ内のみで動作し、外部への通信は行いません。
 				</p>
 			</section>
 			<section>
@@ -30,23 +34,42 @@ export default function PrivacyPage() {
 				</p>
 			</section>
 			<section>
-				<h2>4. 広告について</h2>
+				<h2>4. 広告とCookieについて</h2>
 				<p>
-					当サイトでは、Google AdSenseによる広告配信を利用する場合があります。Googleなどの第三者配信事業者は、
-					利用者の本サイトまたは他サイトへの過去のアクセス情報に基づいて広告を配信するため、Cookie、
-					Webビーコン、IPアドレスなどの情報を使用することがあります。
+					当サイトでは、Google AdSenseによる広告配信を利用しています。
+					Googleなどの第三者配信事業者は、利用者の本サイトまたは他サイトへの過去のアクセス情報に基づいて広告を配信するため、
+					Cookie、Webビーコン、IPアドレスなどの情報を使用することがあります。
 				</p>
 				<p>
-					Googleによる広告Cookieの利用については、
-					<a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noreferrer">
-						Googleによるパートナーサイト・アプリの利用について
-					</a>
-					をご確認ください。パーソナライズド広告は
-					<a href="https://adssettings.google.com/" target="_blank" rel="noreferrer">
-						広告設定
-					</a>
-					から変更できます。
+					<strong>Cookieとは</strong>: Webサイトがブラウザを通じてコンピューターに保存する小さなテキストファイルです。
+					広告配信事業者はCookieを使用して、利用者の興味・関心に合わせた広告を表示します。
 				</p>
+				<p>
+					<strong>Cookieの無効化とオプトアウト</strong>:
+				</p>
+				<ul>
+					<li>
+						Googleによる広告Cookieの利用については、
+						<a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noreferrer">
+							Googleによるパートナーサイト・アプリの利用について
+						</a>
+						をご確認ください。
+					</li>
+					<li>
+						パーソナライズド広告は
+						<a href="https://adssettings.google.com/" target="_blank" rel="noreferrer">
+							広告設定
+						</a>
+						から変更できます。
+					</li>
+					<li>
+						または、
+						<a href="http://www.aboutads.info/choices/" target="_blank" rel="noreferrer">
+							www.aboutads.info
+						</a>
+						にアクセスして、パーソナライズド広告掲載に使用されるサードパーティCookieを無効にできます。
+					</li>
+				</ul>
 			</section>
 			<section>
 				<h2>5. アクセス解析について</h2>

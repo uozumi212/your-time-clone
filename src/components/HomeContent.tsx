@@ -1,0 +1,168 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import InputForm from '@/components/InputForm';
+import TimeDisplay from '@/components/TimeDisplay';
+import ProgressBar from '@/components/ProgressBar';
+import StatCard from '@/components/StatCard';
+import {
+  calculateRemainingTime,
+  calculateLifeStats,
+  TimeRemaining,
+  LifeStats,
+} from '@/utils/timeCalculations';
+import QuoteDisplay from '@/components/QuoteDisplay';
+import { startFaviconAnimation, FaviconTimer } from '@/utils/faviconAnimation';
+
+const STORAGE_KEY_BIRTHDATE = 'yourtime_birthdate';
+const STORAGE_KEY_LIFE_EXPECTANCY = 'yourtime_life_expectancy';
+
+export default function HomeContent() {
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
+  const [lifeExpectancy, setLifeExpectancy] = useState<number>(80);
+  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(null);
+  const [lifeStats, setLifeStats] = useState<LifeStats | null>(null);
+  const [isClient, setIsClient] = useState(false);
+  const [faviconTimer, setFaviconTimer] = useState<FaviconTimer | null>(null);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      setIsClient(true);
+    });
+
+    const savedBirthDate = localStorage.getItem(STORAGE_KEY_BIRTHDATE);
+    const savedLifeExpectancy = localStorage.getItem(STORAGE_KEY_LIFE_EXPECTANCY);
+
+    if (savedBirthDate) {
+      requestAnimationFrame(() => {
+        setBirthDate(new Date(savedBirthDate));
+      });
+    }
+    if (savedLifeExpectancy) {
+      requestAnimationFrame(() => {
+        setLifeExpectancy(Number(savedLifeExpectancy));
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!birthDate || !isClient) return;
+
+    const updateTime = () => {
+      const remaining = calculateRemainingTime(birthDate, lifeExpectancy);
+      const stats = calculateLifeStats(birthDate, lifeExpectancy);
+      setTimeRemaining(remaining);
+      setLifeStats(stats);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 100);
+
+    return () => clearInterval(interval);
+  }, [birthDate, lifeExpectancy, isClient]);
+
+  useEffect(() => {
+    if (!birthDate || !isClient || !timeRemaining) {
+      if (faviconTimer) {
+        faviconTimer.stop();
+        setFaviconTimer(null);
+      }
+      return;
+    }
+
+    if (!faviconTimer) {
+      const timer = startFaviconAnimation(() => ({
+        seconds: timeRemaining.seconds,
+      }));
+      setFaviconTimer(timer);
+    }
+
+    return () => {
+      if (faviconTimer) {
+        faviconTimer.stop();
+      }
+    };
+  }, [birthDate, isClient, timeRemaining, faviconTimer]);
+
+  const handleSubmit = (newBirthDate: Date, newLifeExpectancy: number) => {
+    setBirthDate(newBirthDate);
+    setLifeExpectancy(newLifeExpectancy);
+
+    localStorage.setItem(STORAGE_KEY_BIRTHDATE, newBirthDate.toISOString());
+    localStorage.setItem(STORAGE_KEY_LIFE_EXPECTANCY, String(newLifeExpectancy));
+  };
+
+  const handleReset = () => {
+    if (faviconTimer) {
+      faviconTimer.stop();
+      setFaviconTimer(null);
+    }
+    setBirthDate(null);
+    setLifeExpectancy(80);
+    setTimeRemaining(null);
+    setLifeStats(null);
+    localStorage.removeItem(STORAGE_KEY_BIRTHDATE);
+    localStorage.removeItem(STORAGE_KEY_LIFE_EXPECTANCY);
+  };
+
+  if (!isClient) {
+    return null;
+  }
+
+  return (
+    <>
+      <QuoteDisplay />
+
+      {!birthDate || !timeRemaining || !lifeStats ? (
+        <div className="form-section">
+          <InputForm
+            onSubmit={handleSubmit}
+            initialBirthDate={birthDate || undefined}
+            initialLifeExpectancy={lifeExpectancy}
+          />
+        </div>
+      ) : (
+        <>
+          <div className="timer-section">
+            <TimeDisplay timeRemaining={timeRemaining} />
+          </div>
+
+          <div className="progress-section">
+            <ProgressBar percentage={lifeStats.percentage} />
+          </div>
+
+          <div className="stats-section">
+            <StatCard
+              title="経過日数"
+              value={lifeStats.elapsedDays.toLocaleString()}
+              subtitle="日"
+              icon="📅"
+            />
+            <StatCard
+              title="残り日数"
+              value={lifeStats.remainingDays.toLocaleString()}
+              subtitle="日"
+              icon="⏳"
+            />
+            <StatCard
+              title="人生の進捗"
+              value={lifeStats.percentage.toFixed(2)}
+              subtitle="%"
+              icon="📊"
+            />
+          </div>
+
+          <div className="actions-section">
+            <button onClick={handleReset} className="reset-button">
+              設定をリセット
+            </button>
+          </div>
+        </>
+      )}
+
+      <footer className="footer">
+        <p>時間は限られています。大切に使いましょう。</p>
+      </footer>
+    </>
+  );
+}
