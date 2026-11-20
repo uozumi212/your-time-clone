@@ -149,6 +149,11 @@ export default function FeaturesPage() {
 						<h2 id="faq-heading" className="features-section__title">
 							よくある質問（FAQ）
 						</h2>
+						<p className="features-hero__lead" style={{ margin: "0 0 1.25rem", textAlign: "left" }}>
+							さらに詳しい質問は
+							<Link href="/faq">よくある質問ページ</Link>
+							でカテゴリ別にまとめています。
+						</p>
 						<div className="faq-list">
 							{FAQS.map((faq) => (
 								<details key={faq.question} className="faq-item">
